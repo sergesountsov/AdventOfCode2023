@@ -47,10 +47,10 @@ static ulong Part2(string[] input)
                 digits.Add(digit);
             }
         }
-        uint incr = digits.Count switch {
-            0 => 0,
-            1 => digits[0]*10+digits[0],
-            _ => digits[0]*10 + digits[^1]
+        uint incr = digits switch {
+            [] => 0,
+            [var first] => first*10 + first,
+            [var first, .., var last] => first*10 + last
         };
 
         result += incr;
