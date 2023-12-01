@@ -35,7 +35,8 @@ static ulong Part2(string[] input)
     foreach (string line in input) 
     {
         List<uint> digits = new();
-        for (int startPos =0; startPos < line.Length; startPos++) 
+        
+        for (int startPos = 0; startPos < line.Length; startPos++) 
         {
             if (Char.IsDigit(line[startPos])) 
             {
@@ -46,11 +47,13 @@ static ulong Part2(string[] input)
                 digits.Add(digit);
             }
         }
-        result += digits.Count switch {
+        uint incr = digits.Count switch {
             0 => 0,
-            1 => digits[0],
+            1 => digits[0]*10+digits[0],
             _ => digits[0]*10 + digits[^1]
         };
+
+        result += incr;
     }
     return result;
 }
