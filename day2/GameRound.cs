@@ -1,5 +1,6 @@
 public record GameRound (int Red, int Green, int Blue)
 {
+    public int Power => Red * Green * Blue;
     public static GameRound Parse (string roundDescription) 
     {
         int red = 0; 

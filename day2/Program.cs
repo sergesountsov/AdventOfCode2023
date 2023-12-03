@@ -26,6 +26,30 @@ public class Day2
     }
 
     [Fact]
+    void Part2() 
+    {
+        string[] input = File.ReadAllLines("input.txt");
+        List<List<GameRound>> games = new();
+        foreach (string gameDescr in input) 
+        {
+            games.Add(GameRound.ParseGame(gameDescr));
+        }
+
+        Assert.Equal(100, games.Count);
+        long result =0;
+        foreach (List<GameRound> game in games) {
+            GameRound maxRound = game.Aggregate (
+                new GameRound(0,0,0),
+                (acc, round) => new GameRound(Math.Max(acc.Red, round.Red), 
+                                        Math.Max(acc.Green, round.Green), 
+                                        Math.Max(acc.Blue, round.Blue))
+            );
+            result += maxRound.Power;
+        }
+        Console.WriteLine($"part2 {result}");
+    }
+
+    [Fact]
     void Parse_One_GameRound() 
     {
         GameRound actual = GameRound.Parse("3 red, 5 green, 4 blue");
@@ -51,6 +75,12 @@ public class Day2
     {
         var actual = GameRound.ParseGame("Game 2: 3 green, 18 blue; 14 green, 4 red, 2 blue; 3 red, 14 green, 15 blue");
         Assert.Equal(new List<GameRound> {new GameRound(0,3,18), new GameRound(4,14,2), new GameRound(3,14,15)}, actual);
+    }
+
+    [Fact]
+    void GameRound_Power() 
+    {
+        Assert.Equal(6, (new GameRound(1,2,3)).Power);
     }
 
 }
