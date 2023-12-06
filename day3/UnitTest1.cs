@@ -61,6 +61,28 @@ public class UnitTest1
     }
 
     [Fact]
+    public void Symbol_2_ahead_of_Start()
+    {
+        string[] input = {
+            @"..+.....",
+            @"3......"
+        };
+        var actual = Part1_Numbers(input);
+        Assert.Equal(new List<int> { }, actual);
+    }
+
+    [Fact]
+    public void Symbol_2_ahead_of_Start_next_line()
+    {
+        string[] input = {
+            @"3.......",
+            @"..+....."
+        };
+        var actual = Part1_Numbers(input);
+        Assert.Equal(new List<int> { }, actual);
+    }
+
+    [Fact]
     public void Part1_Example() {
         string[] input = {
             @"467..114..",
@@ -84,10 +106,10 @@ public class UnitTest1
     public void Part1_Full () 
     {
         string[] input = File.ReadAllLines("input.txt");
-        var result = Part1_Numbers(input).Aggregate(0, (acc, n) => acc + n);
-        var str_result = string.Join(", ", Part1_Numbers(input));
-        Console.WriteLine(str_result);
-        Console.WriteLine ($"Part1 {result}");
+        var result = Part1_Numbers(input);
+
+        File.WriteAllLines("result.txt", result.Select((r) => r.ToString()));
+        Console.WriteLine ($"Part1 {result.Aggregate(0, (acc, n) => acc + n)}");
     }
     List<int> Part1_Numbers(string[] input) 
     {
@@ -140,8 +162,8 @@ public class UnitTest1
 
     (int start, int len) Expand (string line, int start, int len) 
     {
+        len = (start + len < line.Length && start > 0) ? len + 2 : len + 1;
         start = (start > 0) ? start - 1 : start;
-        len = (start + len < line.Length - 1) ? len + 2 : len + 1;
         return (start, len);
     }
 }
